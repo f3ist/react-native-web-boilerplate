@@ -3,6 +3,7 @@
 import React from 'react';
 
 import {
+  Dimensions,
   Platform,
   ScrollView,
   StyleSheet,
@@ -93,29 +94,82 @@ class MainScreen extends React.Component {
         }
       ).start();
   }
+
+
   render () {
+    const { windowHeight } = this.props;
+    const windowWidth = (this.props.windowWidth < MAX_WINDOW_WIDTH) ? this.props.windowWidth : MAX_WINDOW_WIDTH;
+
     return (
       <ScrollView>
-        <Banner />
-        <View style={main.container}>
-          {Object.keys(ExampleRoutes).map((routeName: string) =>
-            <View key={routeName} style={main.squareContainer}>
-              <Animated.View style={{opacity: this.state.fadeAnim}}>
-                <Item
-                  routeName={routeName}
-                  routes={ExampleRoutes}
-                  navigation={this.props.navigation}
-                />
-              </Animated.View>
+        <View style={main.demoContainer}>
+          <View style={main.demoSide}/>
+            <View style={[main.demoPage, { maxWidth: windowWidth, minHeight: windowHeight }]}>
+
+              <View style={{ flexGrow: 0, backgroundColor: 'red' }}>
+                <View style={main.demoHeader}>
+                  {textArray.map((item) => <Text style={{ paddingHorizontal: 15 }}>{item}</Text>)}
+                </View>
+              </View>
+
+              <View style={[main.container, { flexGrow: 9 }]}>
+                {Object.keys(ExampleRoutes).map((routeName: string) =>
+                  <View key={routeName} style={main.squareContainer}>
+                    <Animated.View style={{opacity: this.state.fadeAnim}}>
+                      <Item
+                        routeName={routeName}
+                        routes={ExampleRoutes}
+                        navigation={this.props.navigation}
+                      />
+                    </Animated.View>
+                  </View>
+                )}
+              </View>
+
+              <View style={{ flexGrow: 0, backgroundColor: 'blue' }}>
+                <Text>Footer</Text>
+              </View>
+
             </View>
-          )}
+          <View style={main.demoSide}/>
         </View>
       </ScrollView>
     );
   }
 }
 
+const { width, height } = Dimensions.get('window');
+export const MAX_WINDOW_WIDTH = 1789;
+const textArray = ['item1', 'item2', 'item3', 'item4', 'item5'];
+
 const main = StyleSheet.create({
+  demoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  demoSide: {
+    flexGrow: 0,
+    flex: 1,
+    minWidth: 0,
+  },
+  demoPage: {
+    maxWidth: MAX_WINDOW_WIDTH,
+    minHeight: height,
+    alignSelf: 'stretch',
+    flexGrow: 10,
+  },
+  demoHeader: {
+    backgroundColor: 'white',
+    alignItems: 'flex-end',
+    paddingLeft: 20,
+    paddingRight: 20,
+    height: 60,
+    flex: 1,
+    flexDirection: 'row',
+    borderBottomWidth: 2,
+  },
+
+
   container: {
     flexDirection: 'row',
     justifyContent: 'space-around',

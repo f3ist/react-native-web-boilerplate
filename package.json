@@ -20,7 +20,7 @@
     "react-dom": "^15.6.1",
     "react-native": "0.45.1",
     "react-native-vector-icons": "^4.2.0",
-    "react-native-web": "0.0.x",
+    "react-native-web": "0.0.119",
     "react-navigation": "^1.0.0-beta.11"
   },
   "devDependencies": {
